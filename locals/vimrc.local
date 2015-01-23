@@ -16,8 +16,6 @@ let g:airline_powerline_fonts = 1
 
 " SYSTEM ======================================================================
 
-set backupdir=~/.vim/backup//   " set backup directory
-set directory=~/.vim/temp//     " set swap directory
 set whichwrap+=h,l              " h/l wrap like space/backspace (EXPERIMENTAL!)
 
 
