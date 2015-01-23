@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+rel_path="$(dirname "$0")"
+cd "$rel_path/.."
+export LOCALS_DIRECTORY="$(pwd)"
+
+for dotfile in $LOCALS_DIRECTORY/locals/*; do
+  original="$HOME/.${dotfile##*/}"
+  [ ! -h "$original" ] && mv "$original" "$original.unused" 2> /dev/null
+  ln -fs "$dotfile" "$original"
+done

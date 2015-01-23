@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# easily find my IP address
+alias ipaddr='curl ipecho.net/plain'
+
+# add Haskell scripts to $PATH
+export PATH="$HOME/.cabal/bin:$PATH" # haskell cabal

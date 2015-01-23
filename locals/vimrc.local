@@ -1,0 +1,43 @@
+" VISUALS =====================================================================
+
+" best color scheme ever
+colorscheme solarized " best colorscheme evar
+set background=dark   " start in dark mode
+
+" highlight the line and column under the cursor
+set cursorline cursorcolumn
+au WinLeave * set nocursorline nocursorcolumn
+au BufCreate,WinEnter * set cursorline cursorcolumn
+
+" make Airline look sah-weet
+let g:airline_powerline_fonts = 1
+
+
+
+" SYSTEM ======================================================================
+
+set backupdir=~/.vim/backup//   " set backup directory
+set directory=~/.vim/temp//     " set swap directory
+set whichwrap+=h,l              " h/l wrap like space/backspace (EXPERIMENTAL!)
+
+
+
+" HASKELL =====================================================================
+
+" autocomplete for neoc-ghc plugin
+let g:necoghc_enable_detailed_browse = 1
+
+" ghc-mod bindings
+au FileType haskell nnoremap <buffer> <Leader>ht :GhcModType<CR>
+au FileType haskell nnoremap <buffer> <Leader>hh :GhcModTypeClear<CR>
+au FileType haskell nnoremap <buffer> <Leader>hc :GhcModCheck<CR>
+au FileType haskell nnoremap <buffer> <Leader>hl :GhcModLint<CR>
+
+" set test shortcut to "cabal test" in Haskell
+au FileType haskell nnoremap <buffer> <Leader>t :! cabal test --show-details=always --test-options="--color"<CR>
+
+" preset literate Haskell files using Haddock syntax
+au FileType lhaskell let b:presenting_slide_separator = '\v(^|\n)\ze\= +'
+
+" don't show /dist files in Ctrl-P
+set wildignore+=*/dist/*

@@ -1,0 +1,13 @@
+Plugin 'Align'                " align based on a character
+Plugin 'Shougo/vimproc.vim'   " execute code from Vim (scary!)
+Plugin 'sotte/presenting.vim' " turn Vim into a slide presenter
+Plugin 'Facebook/vim-flow'    " Javascript type-checker
+
+" haskell-specific plugins
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'raichoo/purescript-vim'
+Plugin 'travitch/hasksyn'
+
+" colorschemes
+Plugin 'altercation/vim-colors-solarized'
