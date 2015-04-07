@@ -9,9 +9,9 @@ set cursorline cursorcolumn
 au WinLeave * set nocursorline nocursorcolumn
 au BufCreate,WinEnter * set cursorline cursorcolumn
 
-" make Airline look sah-weet
-let g:airline_powerline_fonts = 1
-
+" because we have standards
+set colorcolumn=80
+set textwidth=79
 
 
 " SYSTEM ======================================================================
@@ -38,4 +38,32 @@ au FileType haskell nnoremap <buffer> <Leader>t :! cabal test --show-details=alw
 au FileType lhaskell let b:presenting_slide_separator = '\v(^|\n)\ze\= +'
 
 " don't show /dist files in Ctrl-P
-set wildignore+=*/dist/*
+au FileType haskell set wildignore+=*/dist/*
+
+
+
+" MARKDOWN ====================================================================
+
+au FileType markdown set spell spelllang=en_us
+
+
+
+" PRESENTATIONS ===============================================================
+
+function! s:PresentingEdit()
+  set colorcolumn=60
+  set textwidth=59
+endfunction
+
+function! s:PresentingStart()
+  StartPresenting
+  set noruler
+  set noshowmode
+  set noshowcmd
+  set laststatus=0
+  set showtabline=0
+  call s:PresentingEdit()
+endfunction
+
+command! PresentingStart call s:PresentingStart()
+command! PresentingEdit call s:PresentingEdit()
