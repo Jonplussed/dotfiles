@@ -44,15 +44,15 @@ au FileType haskell set wildignore+=*/dist/*
 
 " MARKDOWN ====================================================================
 
-au FileType markdown set spell spelllang=en_us
+au FileType markdown setlocal spell spelllang=en_us
 
 
 
 " PRESENTATIONS ===============================================================
 
 function! s:PresentingEdit()
-  set colorcolumn=60
-  set textwidth=59
+  setlocal colorcolumn=60
+  setlocal textwidth=59
 endfunction
 
 function! s:PresentingStart()
