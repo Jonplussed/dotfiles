@@ -48,6 +48,18 @@ au FileType markdown setlocal spell spelllang=en_us
 
 
 
+" JAVASCRIPT ==================================================================
+
+au FileType javascript set wildignore+=*/bower_components/*,*/node_modules/*
+
+
+
+" PURESCRIPT ==================================================================
+
+au FileType purescript set wildignore+=*/bower_components/*,*/node_modules/*
+
+
+
 " PRESENTATIONS ===============================================================
 
 function! s:PresentingEdit()
