@@ -2,9 +2,9 @@
 
 rel_path="$(dirname "$0")"
 cd "$rel_path/.."
-export LOCALS_DIRECTORY="$(pwd)"
+export DOTFILES_DIRECTORY="$(pwd)"
 
-for dotfile in $LOCALS_DIRECTORY/locals/*; do
+for dotfile in $DOTFILES_DIRECTORY/home/*; do
   original="$HOME/.${dotfile##*/}"
   [ ! -h "$original" ] && mv "$original" "$original.unused" 2> /dev/null
   ln -fs "$dotfile" "$original"

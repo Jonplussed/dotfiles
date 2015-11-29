@@ -1,0 +1,165 @@
+#!/usr/bin/env bash
+
+# Prompt for use with Bash. All sections and functions are labelled and
+# commented to make this (hopefully) easier to understand and modify
+
+
+
+# PROMPT CHARACTER ============================================================
+
+PROMPT_CHARACTER='>'
+
+
+
+# COLORS ======================================================================
+
+# colors
+default=39
+black=30
+red=31
+green=32
+yellow=33
+blue=34
+magenta=35
+cyan=36
+light_gray=37
+dark_gray=90
+light_red=91
+light_green=92
+light_yellow=93
+light_blue=94
+light_magenta=95
+light_cyan=96
+white=97
+
+
+
+# COLOR OVERRIDES =============================================================
+
+# if you wish to use colors other than the defaults provided, define and export
+# any of these in your `.bashrc.local`
+
+PROMPT_COLOR_DIVIDER=${PROMPT_COLOR_DIVIDER-"$default"}
+PROMPT_COLOR_DIRECTORY=${PROMPT_COLOR_DIRECTORY-"$blue"}
+PROMPT_COLOR_DIRS_COUNT=${PROMPT_COLOR_DIRS_COUNT-"$light_magenta"}
+PROMPT_COLOR_EXIT_FAILURE=${PROMPT_COLOR_EXIT_FAILURE-"$red"}
+PROMPT_COLOR_EXIT_SUCCESS=${PROMPT_COLOR_EXIT_SUCCESS-"$green"}
+PROMPT_COLOR_GIT_CLEAN=${PROMPT_COLOR_GIT_CLEAN-"$green"}
+PROMPT_COLOR_GIT_DIRTY=${PROMPT_COLOR_GIT_DIRTY-"$red"}
+PROMPT_COLOR_JOBS_COUNT=${PROMPT_COLOR_JOBS_COUNT-"$yellow"}
+PROMPT_COLOR_PAIR=${PROMPT_COLOR_PAIR-"$default"}
+PROMPT_COLOR_REMOTE=${PROMPT_COLOR_REMOTE-"$magenta"}
+
+
+
+# HELPER FUNCTIONS ============================================================
+
+# set a color to a portion of text
+_color() {
+  echo "\[\e[0;$1m\]$2\[\e[0;0m\]"
+}
+
+# divider between information
+_component() {
+  echo "$(_color $PROMPT_COLOR_DIVIDER " | $1: ")$2"
+}
+
+# find the current git branch
+_git_branch() {
+  echo "$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+}
+
+# set git branch color on whether current branch is "dirty" or not
+_git_status_color() {
+  git diff --quiet
+
+  if [ ! $? -eq 0 ]; then
+    echo "$PROMPT_COLOR_GIT_DIRTY"
+  else
+    echo "$PROMPT_COLOR_GIT_CLEAN"
+  fi
+}
+
+# return success if we're in a git repo
+_is_git_repo() {
+  git rev-parse --is-inside-work-tree 2> /dev/null
+}
+
+
+
+# PROMPT COMPONENTS ===========================================================
+
+# display the current directory
+_directory() {
+  echo "$(_color "$PROMPT_COLOR_DIRECTORY" '\w')"
+}
+
+# display the git branch
+_git_status() {
+  local current_branch="$(_git_branch)"
+
+  if [[ -n "$current_branch" ]]; then
+    echo "$(_component 'git' "$(_color "$(_git_status_color)" "$current_branch")")"
+  fi
+}
+
+# display who is paired (if set)
+_pair_status() {
+  if [[ -n "$GIT_AUTHOR_NAME" && -n "$(_is_git_repo)" ]]; then
+    local pair_initials=$(echo $GIT_AUTHOR_NAME | tr -d '[:lower:] ' | tr '+' '/')
+    echo "$(_component 'pair' "$(_color "$PROMPT_COLOR_PAIR" "$pair_initials")")"
+  fi
+}
+
+# display a count of the backgrounded/stopped jobs
+_jobs_count() {
+  local count="$(jobs | wc -l)" # count number of backgrounded jobs
+  count="${count##*\ }"         # remove preceding whitespace
+
+  if [ ! "$count" -eq 0 ]; then
+    echo "$(_component 'jobs' "$(_color "$PROMPT_COLOR_JOBS_COUNT" "$count")")"
+  fi
+}
+
+# display a count of the directory stack
+_dirs_count() {
+  local count="$(dirs | wc -w)" # count directory stack size
+  count="${count##*\ }"         # remove preceding whitespace
+  count="$((count - 1))"        # normalize the stack count
+
+  if [ ! "$count" -eq 0 ]; then
+    echo "$(_component 'dirs' "$(_color "$PROMPT_COLOR_DIRS_COUNT" "$count")")"
+  fi
+}
+
+# if logged into a remote host also using these dotfiles, display the hostname
+_remote() {
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    echo "$(_color "$PROMPT_COLOR_REMOTE" "$HOST"):"
+  fi
+}
+
+# change prompt arrow color based on exit status of last command
+_exit_flag() {
+  local prompt_color
+
+  if [ "$1" -eq 0 ]; then
+    prompt_color="$PROMPT_COLOR_EXIT_SUCCESS"
+  else
+    prompt_color="$PROMPT_COLOR_EXIT_FAILURE"
+  fi
+
+  echo "$(_color "$prompt_color" "$PROMPT_CHARACTER") "
+}
+
+
+
+# EXPORT THE PROMPT ===========================================================
+
+# combine the above functions into a pretty and informative prompt
+_prompt() {
+  local last_exit_code="$?"
+  PS1="\n$(_remote)$(_directory)$(_git_status)$(_pair_status)$(_jobs_count)$(_dirs_count)\n$(_exit_flag "$last_exit_code")"
+}
+
+PROMPT_COMMAND='_prompt'

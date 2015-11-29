@@ -1,0 +1,52 @@
+[core]
+  repositoryformatversion = 0
+  filemode = true
+  bare = false
+  logallrefupdates = true
+  ignorecase = false
+  precomposeunicode = false
+  excludesfile = ~/.gitignore
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true
+
+[url "git://github.com/"]
+  insteadOf = "gh:"
+[url "git@github.com:"]
+  insteadOf = "ghp:"
+[url "git@gitlab.com:"]
+  insteadOf = "gl:"
+
+[push]
+  default = tracking
+
+[diff "zip"]
+  textconv = unzip -c -a
+
+[alias]
+  # commit-specific aliases
+  ci     = commit --verbose
+  amend  = commit --amend --reuse-message=HEAD
+  reauth = commit --amend --reset-author --reuse-message=HEAD
+
+  # checkout-specific aliases
+  co     = checkout
+  cp     = checkout --patch
+
+  # merging
+  me     = merge
+  noff   = merge --no-edit --no-ff
+
+  # everything else
+  ap     = add --patch
+  b      = branch
+  l      = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  put    = push origin HEAD --set-upstream
+  s      = status --short
+  sha    = "!if [ -x \"$(command -v xclip)\" ]; then git rev-parse HEAD | tr -d [:space:] | xclip; elif [ -x \"$(command -v pbcopy)\" ]; then git rev-parse HEAD | tr -d [:space:] | pbcopy; fi"
+  st     = status
