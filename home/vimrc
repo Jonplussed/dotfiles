@@ -52,21 +52,21 @@ filetype plugin indent on
 " INPUT =======================================================================
 
 " make Vim more compatible with other filesystems
-au BufWritePre set nobomb     " don't set byte-order-mark on files
-set encoding=utf-8            " all opened files should be UTF-8
+au BufWritePre set nobomb " don't set byte-order-mark on files
+set encoding=utf-8 " all opened files should be UTF-8
 
 " make Vim behave more like other editors
-set backspace=indent,eol,start  " enable backspacing through whitespace
-set virtualedit=all             " cursor can move past the end of the line
-set mouse=a                     " enable mouse reporting/highlighting/scrolling
+set backspace=indent,eol,start " enable backspacing through whitespace
+set virtualedit=all " cursor can move past the end of the line
+set mouse=a " enable mouse reporting/highlighting/scrolling
 
 " use the system clipboard as the default register
 set clipboard=unnamedplus,unnamed
 
 " change the default tabs to two spaces
-set expandtab     " use soft-tabs
+set expandtab " use soft-tabs
 set softtabstop=2 " default twp-space soft tabs
-set shiftwidth=2  " auto-indent with 2 spaces
+set shiftwidth=2 " auto-indent with 2 spaces
 
 
 
@@ -76,9 +76,9 @@ set shiftwidth=2  " auto-indent with 2 spaces
 let mapleader=' '
 
 " shortcuts for working with the quickview window
-map <leader>cn :cnext<CR>     " next item in quickview
+map <leader>cn :cnext<CR> " next item in quickview
 map <leader>cp :cprevious<CR> " previous item in quickview
-map <leader>co :copen<CR>     " open quickview
+map <leader>co :copen<CR> " open quickview
 
 " navigate split windows via ctrl-h/j/k/l
 nnoremap <C-J> <C-W>j
@@ -102,7 +102,7 @@ set showcmd      " show partial command input on bottom-right
 
 " show invisible charactes
 set list
-set listchars=tab:⸘⸘,trail:⸘,extends:»,precedes:«
+set listchars=trail:⸘,extends:»,precedes:«
 
 " modify cursor depending on mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
