@@ -30,27 +30,32 @@
 
 [alias]
   # commit-specific aliases
-  ci     = commit --verbose
-  amend  = commit --amend --reuse-message=HEAD
+  ci = commit --verbose
+  amend = commit --amend --reuse-message=HEAD
   reauth = commit --amend --reset-author --reuse-message=HEAD
 
   # checkout-specific aliases
-  co     = checkout
-  cp     = checkout --patch
+  co = checkout
+  cp = checkout --patch
+  go = !sh -c '[[ "$(git branch | grep -i $1 | wc -l)" -eq "1" ]] && git checkout "$(git branch | grep -i $1 | tr -d [:space:])" || echo "\\\"$1\\\" matches zero or multiple branches"' -
 
   # merging
-  me     = merge
-  noff   = merge --no-edit --no-ff
+  me = merge
+  noff = merge --no-edit --no-ff
 
   # everything else
-  ap     = add --patch
-  b      = branch
-  l      = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  put    = push origin HEAD --set-upstream
-  s      = status --short
-  sha    = !if [ -x \"$(command -v xclip)\" ]; then git rev-parse HEAD | tr -d [:space:] | xclip; elif [ -x \"$(command -v pbcopy)\" ]; then git rev-parse HEAD | tr -d [:space:] | pbcopy; fi
-  st     = status
-  cog    = !sh -c '[[ "$(git branch | grep -i $1 | wc -l)" -eq "1" ]] && git checkout "$(git branch | grep -i $1 | tr -d [:space:])" || echo "\\\"$1\\\" matches zero or multiple branches"' -
+  ap = add --patch
+  b = branch
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  put = push origin HEAD --set-upstream
+  s = status --short
+  sha = "!if [ -x \"$(command -v xclip)\" ]; then git rev-parse HEAD | tr -d [:space:] | xclip; elif [ -x \"$(command -v pbcopy)\" ]; then git rev-parse HEAD | tr -d [:space:] | pbcopy; fi"
+  st = status
 
 [include]
   path = ~/.gitconfig.local
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  required = true

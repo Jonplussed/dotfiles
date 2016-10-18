@@ -45,7 +45,7 @@ call SourceIfExists($HOME . '/.vundle.local')
 
 " required to end Vundle
 call vundle#end()
-filetype plugin indent on
+" filetype plugin indent on " sucks in Haskell currently
 
 
 
@@ -102,7 +102,7 @@ set showcmd      " show partial command input on bottom-right
 
 " show invisible charactes
 set list
-set listchars=trail:⸘,extends:»,precedes:«
+set listchars=trail:#,extends:»,precedes:«
 
 " modify cursor depending on mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"

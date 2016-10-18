@@ -5,6 +5,7 @@ Plugin 'scrooloose/syntastic' " syntax checking
 
 " GUI
 Plugin 'bling/vim-airline'    " better status line
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'kien/ctrlp.vim'       " fuzzy-finder purely in VimL
 Plugin 'scrooloose/nerdtree'  " better file navigation
 Plugin 'tpope/vim-fugitive'   " so much Git integration
@@ -27,5 +28,5 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'raichoo/purescript-vim'
-Plugin 'neovimhaskell/haskell-vim'
 Plugin 'kballard/vim-swift'
+Plugin 'neovimhaskell/haskell-vim'
