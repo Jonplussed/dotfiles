@@ -133,10 +133,8 @@ _dirs_count() {
 }
 
 # if logged into a remote host also using these dotfiles, display the hostname
-_remote() {
-  if [[ -n "$SSH_CONNECTION" ]]; then
-    echo "$(_color "$PROMPT_COLOR_REMOTE" "$HOST"):"
-  fi
+_host() {
+  echo "$(_color "$PROMPT_COLOR_REMOTE" "\u@\h"):"
 }
 
 # change prompt arrow color based on exit status of last command
@@ -159,7 +157,7 @@ _exit_flag() {
 # combine the above functions into a pretty and informative prompt
 _prompt() {
   local last_exit_code="$?"
-  PS1="\n$(_remote)$(_directory)$(_git_status)$(_pair_status)$(_jobs_count)$(_dirs_count)\n$(_exit_flag "$last_exit_code")"
+  PS1="\n$(_host)$(_directory)$(_git_status)$(_pair_status)$(_jobs_count)$(_dirs_count)\n$(_exit_flag "$last_exit_code")"
 }
 
 PROMPT_COMMAND='_prompt'
