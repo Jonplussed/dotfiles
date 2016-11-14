@@ -1,0 +1,25 @@
+set -e
+
+COUNTER=1
+BRANCHES=($(git branch --list | grep --regexp ^[^*]))
+INVALID="ERROR: invalid selection"
+
+echo "" # start with a newline
+
+for BRANCH in ${BRANCHES[@]}; do
+  echo "$COUNTER. $BRANCH"
+  let COUNTER+=1
+done
+
+echo -ne "\nWhich branch number? "
+read NUM
+
+if [ $NUM -lt 1 ]; then
+  echo $INVALID
+  exit 1
+elif [ $NUM -gt ${#BRANCHES[@]} ]; then
+  echo $INVALID
+  exit 1
+else
+  git checkout ${BRANCHES[NUM-1]}
+fi
