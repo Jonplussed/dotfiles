@@ -1,32 +1,22 @@
 " required
-Plugin 'gmarik/vundle'        " vim bundle manager
-Plugin 'Shougo/vimproc.vim'   " execute code from Vim
-Plugin 'scrooloose/syntastic' " syntax checking
+Plug 'scrooloose/syntastic'
 
 " GUI
-Plugin 'bling/vim-airline'    " better status line
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'kien/ctrlp.vim'       " fuzzy-finder purely in VimL
-Plugin 'scrooloose/nerdtree'  " better file navigation
-Plugin 'tpope/vim-fugitive'   " so much Git integration
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fugitive'
 
-" miscellaneous
-Plugin 'tpope/vim-surround'   " deal with (),<>, etc
-Plugin 'tpope/vim-commentary' " easily comment lines/blocks
-Plugin 'tpope/vim-endwise'    " block endings for several languages
-Plugin 'sotte/presenting.vim' " turn Vim into a slide presenter
-Plugin 'Align'                " align based on a character
-
-" ghc-mod hooks
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'eagletmt/neco-ghc'
+" operations
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
+Plug 'sotte/presenting.vim'
 
 " colorschemes
-Plugin 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 
 " syntax highlighting
-Plugin 'plasticboy/vim-markdown'
-Plugin 'tikhomirov/vim-glsl'
-Plugin 'raichoo/purescript-vim'
-Plugin 'kballard/vim-swift'
-Plugin 'neovimhaskell/haskell-vim'
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }

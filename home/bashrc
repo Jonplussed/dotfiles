@@ -20,16 +20,16 @@ export PATH='/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
 # add Haskell Stack exes to $PATH
 export PATH="$HOME/.local/bin:$PATH" # Stack
 
-# set the default editor to Vim
-export EDITOR=vim
-export VISUAL=vim
+# set the default editor to Neovim
+export EDITOR=nvim
+export VISUAL=nvim
 
 
 
 # ALIASES =====================================================================
 
 # shortcuts for the most commonly used tools
-alias v='vim'
+alias v='nvim'
 alias g='git'
 
 # override common tools with useful arguments
@@ -45,7 +45,7 @@ alias la='ls -lah'
 alias t='tmux attach-session -t "$(whoami)" || tmux new-session -s "$(whoami)"'
 
 # update all Vim plugins
-alias vundle='vim +PluginInstall! +qall'
+alias vundle='vim +PlugInstall! +qall'
 
 # easily find my IP address
 alias ipaddr='curl ipecho.net/plain'
@@ -77,3 +77,5 @@ _source_if_exists "$HOME/.pair" # "pair() shell function to set Git pairs"
 _source_if_exists "$HOME/.prompt" # Bash prompt
 _source_if_exists "$HOME/.bashrc.local" # local .bashrc overrides
 _source_if_exists "$HOME/.bashrc.thoughtleadr"
+
+unset _source_if_exists
