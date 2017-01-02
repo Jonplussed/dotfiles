@@ -3,15 +3,6 @@ set nocompatible
 
 
 
-" SYSTEM ======================================================================
-
-" keep these necessary files from being littered all over the machine
-set undodir=~/.vim/undo//
-set backupdir=~/.vim/backup//
-set directory=~/.vim/swp//
-
-
-
 " HELPER FUNCTIONS ============================================================
 
 " toggle between light/dark backgrounds
@@ -32,20 +23,10 @@ endfunction
 
 " PLUGINS =====================================================================
 
-" required to begin Vundle
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" source Vim plugins we've standardized around
+call plug#begin()
 call SourceIfExists($HOME . '/.vundle')
-
-" source local additional plugins
 call SourceIfExists($HOME . '/.vundle.local')
-
-" required to end Vundle
-call vundle#end()
-" filetype plugin indent on " sucks in Haskell currently
+call plug#end()
 
 
 
@@ -178,20 +159,6 @@ set wildignore+=*/dist/*                              " compiled Haskell and Pur
 
 
 " HASKELL =====================================================================
-
-" autocomplete for neoc-ghc plugin
-let g:haskellmode_completion_ghc = 0 " disable default Haskell omnifunc
-let g:necoghc_enable_detailed_browse = 1 " more info per function
-au FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-" ghc-mod bindings
-au FileType haskell nnoremap <buffer> <Leader>ht :GhcModType<CR>
-au FileType haskell nnoremap <buffer> <Leader>hh :GhcModTypeClear<CR>
-au FileType haskell nnoremap <buffer> <Leader>hc :GhcModCheck<CR>
-au FileType haskell nnoremap <buffer> <Leader>hl :GhcModLint<CR>
-
-" set test shortcut to "cabal test" in Haskell
-au FileType haskell nnoremap <buffer> <Leader>t :! cabal test --show-details=always --test-options="--color"<CR>
 
 " preset literate Haskell files using Haddock syntax
 au FileType lhaskell let b:presenting_slide_separator = '\v(^|\n)\ze\= +'
