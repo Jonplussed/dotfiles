@@ -134,7 +134,9 @@ _dirs_count() {
 
 # if logged into a remote host also using these dotfiles, display the hostname
 _host() {
-  echo "$(_color "$PROMPT_COLOR_REMOTE" "\u@\h"):"
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    echo "$(_color "$PROMPT_COLOR_REMOTE" "\u@\h"):"
+  fi
 }
 
 # change prompt arrow color based on exit status of last command
