@@ -162,6 +162,7 @@ set wildignore+=*/dist/*                              " compiled Haskell and Pur
 
 " preset literate Haskell files using Haddock syntax
 au FileType lhaskell let b:presenting_slide_separator = '\v(^|\n)\ze\= +'
+au FileType haskell setlocal indentexpr=
 
 
 

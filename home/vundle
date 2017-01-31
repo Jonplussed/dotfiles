@@ -18,5 +18,7 @@ Plug 'sotte/presenting.vim'
 Plug 'altercation/vim-colors-solarized'
 
 " syntax highlighting
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+
+" Haskell
+" Plug 'parsonsmatt/intero-neovim', { 'for': 'haskell' }
