@@ -38,11 +38,12 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
-alias ls='ls -FG --color=auto'
-alias la='ls -lah'
+alias ls='ls -FG'
+alias la='ls -FGahl'
 
 # attach to the tmux session or create a new named after the user
-alias t='tmux attach-session -t "$(whoami)" || tmux new-session -s "$(whoami)"'
+TMUX_SESSION="$(whoami | sed 's/\./-/g')"
+alias t='tmux attach-session -t "$TMUX_SESSION" || tmux new-session -s "$TMUX_SESSION"'
 
 # update all Vim plugins
 alias vundle='vim +PlugInstall! +qall'
@@ -76,6 +77,5 @@ fi
 _source_if_exists "$HOME/.pair" # "pair() shell function to set Git pairs"
 _source_if_exists "$HOME/.prompt" # Bash prompt
 _source_if_exists "$HOME/.bashrc.local" # local .bashrc overrides
-_source_if_exists "$HOME/.bashrc.thoughtleadr"
 
 unset _source_if_exists
