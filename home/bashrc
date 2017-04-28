@@ -51,6 +51,9 @@ alias vundle='vim +PlugInstall! +qall'
 # easily find my IP address
 alias ipaddr='curl ipecho.net/plain'
 
+# reload .bashrc
+alias reload="source $HOME/.bashrc"
+
 
 
 # FUNCTIONS ===================================================================
