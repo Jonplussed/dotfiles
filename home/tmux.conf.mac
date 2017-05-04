@@ -1,0 +1,7 @@
+# allow use of launchctl, brew, and other MacOS tools
+set-option -g default-command "reattach-to-user-namespace -l bash"
+
+# use system clipboard for copy/paste
+unbind -T copy-mode-vi Enter
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+bind ] run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
