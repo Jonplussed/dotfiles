@@ -114,7 +114,7 @@ _prompt_pair_status() {
 # display a count of the backgrounded/stopped jobs
 _prompt_jobs_count() {
   local count="$(jobs | wc -l)" # count number of backgrounded jobs
-  count="${count##*\ }"         # remove preceding whitespace
+  count="${count##*\ }" # remove preceding whitespace
 
   if [ ! "$count" -eq 0 ]; then
     echo "$(_prompt_component 'jobs' "$(_prompt_color "$PROMPT_COLOR_JOBS_COUNT" "$count")")"
@@ -123,11 +123,10 @@ _prompt_jobs_count() {
 
 # display a count of the directory stack
 _prompt_dirs_count() {
-  local count="$(dirs | wc -w)" # count directory stack size
-  count="${count##*\ }"         # remove preceding whitespace
-  count="$((count - 1))"        # normalize the stack count
+  local count="$(dirs -p | wc -l)" # count directory stack size
+  count="${count##*\ }" # remove preceding whitespace
 
-  if [ ! "$count" -eq 0 ]; then
+  if [ ! "$count" -le 1 ]; then
     echo "$(_prompt_component 'dirs' "$(_prompt_color "$PROMPT_COLOR_DIRS_COUNT" "$count")")"
   fi
 }

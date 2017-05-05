@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 
-
-# HELPER FUNCTIONS ============================================================
-
-_source_if_exists() {
-  if [ -f $1 ]; then
-    . $1
-    eval $2
-  fi
-}
-
-
-
 # VARIABLES ===================================================================
 
 # normalize the PATH stack
@@ -19,6 +7,9 @@ export PATH='/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
 
 # add Haskell Stack exes to $PATH
 export PATH="$HOME/.local/bin:$PATH" # Stack
+
+# add local dotfiles scripts
+export PATH="$HOME/Projects/dotfiles/bin:$PATH"
 
 # set the default editor to Neovim
 export EDITOR=nvim
@@ -76,6 +67,13 @@ fi
 
 
 # OTHER SOURCED FILES =========================================================
+
+_source_if_exists() {
+  if [ -f $1 ]; then
+    . $1
+    eval $2
+  fi
+}
 
 _source_if_exists "$HOME/.pair" # "pair() shell function to set Git pairs"
 _source_if_exists "$HOME/.prompt" # Bash prompt
