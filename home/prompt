@@ -3,17 +3,8 @@
 # Prompt for use with Bash. All sections and functions are labelled and
 # commented to make this (hopefully) easier to understand and modify
 
-
-
-# PROMPT CHARACTER ============================================================
-
-PROMPT_CHARACTER='>'
-
-
-
 # COLORS ======================================================================
 
-# colors
 default=39
 black=30
 red=31
@@ -148,7 +139,7 @@ _prompt_exit_flag() {
     color="$PROMPT_COLOR_EXIT_FAILURE"
   fi
 
-  echo "$(_prompt_color "$color" "$PROMPT_CHARACTER") "
+  echo "$(_prompt_color "$color" ">") "
 }
 
 

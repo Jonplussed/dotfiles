@@ -33,6 +33,7 @@
   ci = commit --verbose
   amend = commit --amend --reuse-message=HEAD
   reauth = commit --amend --reset-author --reuse-message=HEAD
+  credit = blame # fuck negativity
 
   # checkout-specific aliases
   co = checkout
