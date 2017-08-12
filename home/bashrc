@@ -57,15 +57,6 @@ take() {
 
 
 
-# AUTO-COMPLETES ==============================================================
-
-# use git autocompletion when "git" is aliased to "g"
-if type __git_complete &>/dev/null; then
-  __git_complete g __git_main
-fi
-
-
-
 # OTHER SOURCED FILES =========================================================
 
 _source_if_exists() {
@@ -75,7 +66,6 @@ _source_if_exists() {
   fi
 }
 
-_source_if_exists "$HOME/.pair" # "pair() shell function to set Git pairs"
 _source_if_exists "$HOME/.prompt" # Bash prompt
 _source_if_exists "$HOME/.bashrc.local" # local .bashrc overrides
 
