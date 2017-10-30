@@ -4,7 +4,7 @@ ECLIPSE_HOME='/Applications/Eclipse Java.app/Contents/Eclipse'
 ECLIM_FILE="$HOME/.eclim/.eclimd_instances"
 
 usage() {
-  printf "USAGE: eclim [start|stop]"
+  echo 'USAGE: eclim [start|stop]'
   exit 1
 }
 
