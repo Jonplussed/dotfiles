@@ -17,11 +17,17 @@ Plug 'sotte/presenting.vim'
 " colorschemes
 Plug 'altercation/vim-colors-solarized'
 
-" syntax highlighting
-Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+""" Language-specific plugins
 
 " Haskell
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 " Plug 'parsonsmatt/intero-neovim', { 'for': 'haskell' }
+
+" Ruby
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'tpope/vim-rails', { 'for': 'ruby' }
+Plug 'tpope/vim-rbenv', { 'for': 'ruby' }
+Plug 'tpope/vim-bundler', { 'for': 'ruby' }
 
 " JSON
 Plug 'elzr/vim-json', { 'for': 'json' }
