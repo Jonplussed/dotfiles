@@ -6,7 +6,7 @@
 export PATH='/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
 
 # add Haskell Stack exes to $PATH
-export PATH="$HOME/.local/bin:$PATH" # Stack
+export PATH="$HOME/.local/bin:$PATH"
 
 # add local dotfiles scripts
 export PATH="$HOME/Projects/dotfiles/bin:$PATH"
