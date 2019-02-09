@@ -22,6 +22,7 @@ export VISUAL=nvim
 # shortcuts for the most commonly used tools
 alias v='nvim'
 alias g='git'
+alias s='stack'
 
 # override common tools with useful arguments
 alias grep='grep --color=auto'

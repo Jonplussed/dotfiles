@@ -16,7 +16,9 @@ endfunction
 
 " source a file if it exists
 function! SourceIfExists(filename)
-  if filereadable(a:filename) | execute 'source ' . a:filename | endif
+  if filereadable(a:filename)
+    execute 'source ' . a:filename
+  endif
 endfunction
 
 
@@ -98,8 +100,8 @@ map <leader>r :set relativenumber!<CR>     " toggle relative/normal line numbers
 map <leader>b :call ToggleBackground()<CR> " toggle between light/dark backgrounds
 
 " best color scheme ever
-colorscheme solarized " best colorscheme evar
-set background=dark   " start in dark mode
+colorscheme solarized
+set background=dark   " default to dark mode
 
 " highlight the line and column under the cursor
 set cursorline cursorcolumn
@@ -116,6 +118,7 @@ if $TERM_THEME == 'light'
 else
   set background=dark
 endif
+
 
 
 " FILETYPES ===================================================================
@@ -172,10 +175,18 @@ set wildignore+=*/dist/*                              " compiled Haskell and Pur
 au FileType lhaskell let b:presenting_slide_separator = '\v(^|\n)\ze\= +'
 au FileType haskell setlocal indentexpr=
 
+" common Intero commands
+map <leader>io :InteroOpen<CR>            " open GHCi REPL
+map <leader>it :InteroGenericType<CR>     " get type info under cursor
+map <leader>il :InteroLoadCurrentFile<CR> " load current module into GHCi
+map <leader>ir :InteroReload<CR>          " reload current module in GHCi
+map <leader>ig :InteroGoToDef<CR>         " goto function definition
+
 
 
 " MAKEFILE ====================================================================
 
+" Make syntax requires hard tabs
 au Filetype make setlocal noexpandtab
 au Filetype make setlocal tabstop=2
 
@@ -183,6 +194,7 @@ au Filetype make setlocal tabstop=2
 
 " JAVA ========================================================================
 
+" What's more Java than absurdly wide lines?
 au FileType java setlocal softtabstop=4
 au FileType java setlocal shiftwidth=4
 

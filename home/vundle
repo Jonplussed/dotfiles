@@ -17,11 +17,13 @@ Plug 'sotte/presenting.vim'
 " colorschemes
 Plug 'altercation/vim-colors-solarized'
 
+
+
 """ Language-specific plugins
 
 " Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
-" Plug 'parsonsmatt/intero-neovim', { 'for': 'haskell' }
+Plug 'parsonsmatt/intero-neovim', { 'for': 'haskell' }
 
 " Ruby
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
