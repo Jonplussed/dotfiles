@@ -95,12 +95,12 @@ _prompt_git_status() {
 }
 
 # display who is paired (if set)
-_prompt_pair_status() {
-  if [[ -n "$GIT_AUTHOR_NAME" && -n "$(_prompt_is_git_repo)" ]]; then
-    local pair_initials=$(echo $GIT_AUTHOR_NAME | tr -d '[:lower:] ' | tr '+' '/')
-    echo "$(_prompt_component 'pair' "$(_prompt_color "$PROMPT_COLOR_PAIR" "$pair_initials")")"
-  fi
-}
+# _prompt_pair_status() {
+#   if [[ -n "$GIT_AUTHOR_NAME" && -n "$(_prompt_is_git_repo)" ]]; then
+#     local pair_initials=$(echo $GIT_AUTHOR_NAME | tr -d '[:lower:] ' | tr '+' '/')
+#     echo "$(_prompt_component 'pair' "$(_prompt_color "$PROMPT_COLOR_PAIR" "$pair_initials")")"
+#   fi
+# }
 
 # display a count of the backgrounded/stopped jobs
 _prompt_jobs_count() {
@@ -149,7 +149,7 @@ _prompt_exit_flag() {
 # combine the above functions into a pretty and informative prompt
 _prompt() {
   local last_exit_code="$?"
-  PS1="\n$(_prompt_host)$(_prompt_directory)$(_prompt_git_status)$(_prompt_pair_status)$(_prompt_jobs_count)$(_prompt_dirs_count)\n$(_prompt_exit_flag "$last_exit_code")"
+  PS1="\n$(_prompt_host)$(_prompt_directory)$(_prompt_git_status)$(_prompt_jobs_count)$(_prompt_dirs_count)\n$(_prompt_exit_flag "$last_exit_code")"
 }
 
 PROMPT_COMMAND='_prompt'

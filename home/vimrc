@@ -84,7 +84,7 @@ set ruler           " show column/line # on bottom-right
 set nowrap          " don't wrap lines
 set laststatus=2    " show statusline at the bottom
 set showcmd         " show partial command input on bottom-right
-set relativenumber  "default to relative line numbering
+set relativenumber  " default to relative line numbering
 
 " show invisible charactes
 set list
@@ -195,8 +195,8 @@ au Filetype make setlocal tabstop=2
 " JAVA ========================================================================
 
 " What's more Java than absurdly wide lines?
-au FileType java setlocal softtabstop=4
-au FileType java setlocal shiftwidth=4
+au FileType java setlocal softtabstop=2
+au FileType java setlocal shiftwidth=2
 
 
 
@@ -225,6 +225,14 @@ endfunction
 
 command! PresentingStart call s:PresentingStart()
 command! PresentingEdit call s:PresentingEdit()
+
+
+
+" COBOL =======================================================================
+
+au FileType cobol setlocal colorcolumn=7,11,+1
+au FileType cobol setlocal softtabstop=4
+au FileType cobol setlocal shiftwidth=4
 
 
 

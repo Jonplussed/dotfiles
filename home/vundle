@@ -33,3 +33,6 @@ Plug 'tpope/vim-bundler', { 'for': 'ruby' }
 
 " JSON
 Plug 'elzr/vim-json', { 'for': 'json' }
+
+" Java
+" Plug '~/.vim/eclim'
