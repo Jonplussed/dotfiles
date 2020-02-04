@@ -228,6 +228,13 @@ command! PresentingEdit call s:PresentingEdit()
 
 
 
+" PYTHON ======================================================================
+
+au FileType python setlocal softtabstop=2
+au FileType python setlocal shiftwidth=2
+
+
+
 " COBOL =======================================================================
 
 au FileType cobol setlocal colorcolumn=7,11,+1
