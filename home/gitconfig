@@ -53,11 +53,9 @@
   sha = rev-parse HEAD
   st = status
 
+  # delete all branches except the current local branch
+  prune = "!git-prune"
+
 [include]
   path = ~/.gitconfig.local
   path = ~/.gitconfig.pair
-
-[filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  required = true

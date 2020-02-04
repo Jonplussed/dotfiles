@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+git branch --no-color | grep --color=never -G '^[^*]' | xargs git branch -D
