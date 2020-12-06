@@ -11,16 +11,16 @@ export PATH="$HOME/.local/bin:$PATH"
 # add local dotfiles scripts
 export PATH="$HOME/Projects/dotfiles/bin:$PATH"
 
-# set the default editor to Neovim
-export EDITOR=nvim
-export VISUAL=nvim
+# set the default editor to Vim
+export EDITOR=vim
+export VISUAL=vim
 
 
 
 # ALIASES =====================================================================
 
 # shortcuts for the most commonly used tools
-alias v='nvim'
+alias v='vim'
 alias g='git'
 alias s='stack'
 

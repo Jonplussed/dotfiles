@@ -25,7 +25,7 @@ endfunction
 
 " PLUGINS =====================================================================
 
-call plug#begin()
+call plug#begin('~/.vim/plugged')
 call SourceIfExists($HOME . '/.vundle')
 call SourceIfExists($HOME . '/.vundle.local')
 call plug#end()
