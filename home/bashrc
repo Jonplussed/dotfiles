@@ -2,14 +2,10 @@
 
 # VARIABLES ===================================================================
 
-# normalize the PATH stack
-export PATH='/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
-
-# add Haskell Stack exes to $PATH
-export PATH="$HOME/.local/bin:$PATH"
-
-# add local dotfiles scripts
-export PATH="$HOME/Projects/dotfiles/bin:$PATH"
+# set the bin path
+export PATH='/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin' # default bin path
+export PATH="$HOME/.nix-profile/bin:$PATH" # prefer Nix-installed bins
+export PATH="$PATH:$HOME/Projects/dotfiles/bin" # include my own bins
 
 # set the default editor to Vim
 export EDITOR=vim
@@ -69,5 +65,6 @@ _source_if_exists() {
 
 _source_if_exists "$HOME/.prompt" # Bash prompt
 _source_if_exists "$HOME/.bashrc.local" # local .bashrc overrides
+_source_if_exists "$HOME/.nix-profile/etc/profile.d/nix.sh" # Nix variables
 
 unset _source_if_exists
