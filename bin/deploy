@@ -6,11 +6,11 @@ verbose=false
 function create_dir {
   local dir="$1"
 
-  if [ $dry_run = true || $verbose = true ]; then
+  if [ "$dry_run" = true || "$verbose" = true ]; then
     echo "Creating directory \"$dir\""
   fi
 
-  if [ $dry_run = false ]; then
+  if [ "$dry_run" = false ]; then
     mkdir "$dir"
   fi
 }
@@ -18,75 +18,73 @@ function create_dir {
 function deprecate_file {
   local file="$1"
 
-  if [ $dry_run = true || $verbose = true ]; then
+  if [ "$dry_run" = true || "$verbose" = true ]; then
     echo "Moving \"$file\" to \"$file.old\""
   fi
 
-  if [ $dry_run = false ]; then
+  if [ "$dry_run" = false ]; then
     mv "$original" "$original.unused"
   fi
 }
 
 function symlink_file {
-  local $proj_file="$1"
-  local $home_file="$2"
+  local proj_file="$1"
+  local home_file="$2"
 
-  if [ $dry_run = true ]; then
-    echo "Will symlink \"$home_file\"" to \"$proj_file\""
-  else
+  if [ "$dry_run" = true || "$verbose" = true ]; then
+    echo "Symlinking \"$home_file\" to \"$proj_file\""
+  fi
+
+  if [ "$dry_run" = false ]; then
     ln -fs "$proj_file" "$home_file"
   fi
 }
 
 function deploy_file {
-  local proj_dir="$1"
-  local home_dir="$2"
-  local path_pre="$3"
+  local proj_file="$1"
+  local home_file="$2"
+
+  [ ! -h "$proj_file" ] && mv "$original" "$original.unused" 2> /dev/null
+  ln -fs "$dotfile" "$original"
 }
 
 function deploy_dir {
   local proj_dir="$1"
   local home_dir="$2"
-  local path_pre="$3"
 
-  if [ -d "$home_dir" ]; then
-    deploy_dir "$proj_dir" "$home_dir" ""
-  elif [ -h "$home_dir" ]; then
-    cat <<-HERE >2
-      Cannot create the following directory
-      $home_dir
-      A file by that name already exists.
-    HERE
+  if [ -e "$home_dir" || ! -d "$home_dir" ]; then
+    cat <<HERE >2
+Cannot create the following directory
+$home_dir
+because a file by that name already exists.
+HERE
 
     exit 1
-  else
-    mkdir "$home_dir"
   fi
+
+  if [ ! -e "$home_dir" ]; then
+    create_dir "$home_dir"
+  fi
+
+  deploy_all_in "$proj_dir" "$home_dir" ""
 }
 
-function deploy {
+function deploy_all_in {
   local proj_dir="$1"
   local home_dir="$2"
-  local path_pre="$3"
+  local prefix="$3"
 
   for file in $proj_dir/*; do
     local path_seg = "${dotfile##*/}"
 
     if [ -d "$file" ]; then
-      deploy_dir "$proj_dir/$path_seg" "$home_dir/$path_seg" "$path_pre"
+      deploy_dir "$proj_dir/$path_seg" "$home_dir/$prefix$path_seg"
     else
-      deploy_file "$proj_dir/$path_seg" "$home_dir/$path_seg" "$path_pre"
+      deploy_file "$proj_dir/$path_seg" "$home_dir/$prefix$path_seg"
     fi
   done
 }
 
 rel_path="$(dirname "$0")"
 cd "$rel_path/.."
-deploy "$(pwd)/home" "$HOME" "."
-
-
-for dotfile in /*; do
-  original="$HOME/.${dotfile##*/}"
-  [ ! -h "$original" ] && mv "$original" "$original.unused" 2> /dev/null
-  ln -fs "$dotfile" "$original"
-done
+deploy_all_in "$(pwd)/home" "$HOME" "."
