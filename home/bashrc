@@ -42,6 +42,8 @@ alias ipaddr='curl ipecho.net/plain'
 # reload .bashrc
 alias reload="source $HOME/.bashrc"
 
+alias reinstall="nix-env --install --file $HOME/.env.nix"
+
 
 
 # FUNCTIONS ===================================================================
