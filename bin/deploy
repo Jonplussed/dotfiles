@@ -1,54 +1,79 @@
 #!/usr/bin/env bash
 
-dry_run=false
-verbose=false
+# =============================================================================
+# CONSTANTS
+# For convenience.
+# =============================================================================
 
-function create_dir {
+TRUE=t
+FALSE=f
+
+# =============================================================================
+# CLI OPTION DEFAULT VALUES
+# These represent the default state of the script.
+# =============================================================================
+
+dry_run="$FALSE"
+verbose="$FALSE"
+
+# =============================================================================
+# FILE ACTIONS
+# Each should contain a "dry run" and "regular" version of the actions so we
+# can test what will happen prior to execution.
+# =============================================================================
+
+create_dir() {
   local dir="$1"
 
-  if [ "$dry_run" = true || "$verbose" = true ]; then
+  if [ "$dry_run" = "$TRUE" || "$verbose" = "$TRUE" ]; then
     echo "Creating directory \"$dir\""
   fi
 
-  if [ "$dry_run" = false ]; then
+  if [ "$dry_run" = "$FALSE" ]; then
     mkdir "$dir"
   fi
 }
 
-function deprecate_file {
+deprecate_file() {
   local file="$1"
 
-  if [ "$dry_run" = true || "$verbose" = true ]; then
-    echo "Moving \"$file\" to \"$file.old\""
+  if [ "$dry_run" = "$TRUE" || "$verbose" = "$TRUE" ]; then
+    echo "Moving \"$file\" to \"$file.replaced\""
   fi
 
-  if [ "$dry_run" = false ]; then
-    mv "$original" "$original.unused"
+  if [ "$dry_run" = "$FALSE" ]; then
+    mv "$original" "$original.replaced" 2> /dev/null
   fi
 }
 
-function symlink_file {
+symlink_file() {
   local proj_file="$1"
   local home_file="$2"
 
-  if [ "$dry_run" = true || "$verbose" = true ]; then
+  if [ "$dry_run" = "$TRUE" || "$verbose" = "$TRUE" ]; then
     echo "Symlinking \"$home_file\" to \"$proj_file\""
   fi
 
-  if [ "$dry_run" = false ]; then
+  if [ "$dry_run" = "$FALSE" ]; then
     ln -fs "$proj_file" "$home_file"
   fi
 }
 
-function deploy_file {
+# =============================================================================
+# DEPLOYMENT PROCEDURE
+# These should never call file actions suchs "mv" or "mkdir" directly but
+# reference the above FILE ACTIONS.
+# =============================================================================
+
+deploy_file() {
   local proj_file="$1"
   local home_file="$2"
 
-  [ ! -h "$proj_file" ] && mv "$original" "$original.unused" 2> /dev/null
-  ln -fs "$dotfile" "$original"
+  [ ! -h "$proj_file" ] && deprecate_file "$original"
+  symlink_file "$dotfile" "$original"
 }
 
-function deploy_dir {
+deploy_dir() {
   local proj_dir="$1"
   local home_dir="$2"
 
@@ -69,7 +94,7 @@ HERE
   deploy_all_in "$proj_dir" "$home_dir" ""
 }
 
-function deploy_all_in {
+deploy_all_in() {
   local proj_dir="$1"
   local home_dir="$2"
   local prefix="$3"
