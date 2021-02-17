@@ -1,20 +1,52 @@
 #!/usr/bin/env bash
 
+set -e -o pipefail -u
+
 # =============================================================================
 # CONSTANTS
 # For convenience.
 # =============================================================================
 
-TRUE=t
-FALSE=f
+TRUE="t"
+FALSE="f"
 
 # =============================================================================
 # CLI OPTION DEFAULT VALUES
 # These represent the default state of the script.
 # =============================================================================
 
-dry_run="$FALSE"
-verbose="$FALSE"
+opt_dry_run="$TRUE"
+opt_verbose="$FALSE"
+
+# =============================================================================
+# HELPER FUNCTIONS
+# Separated for convenience.
+# =============================================================================
+
+red() {
+  echo -e "\033[0;31m$1\033[0m"
+}
+
+blue() {
+  echo -e "\033[0;34m$1\033[0m"
+}
+
+verbose() {
+  if [[ "$opt_dry_run" = "$TRUE" || "$opt_verbose" = "$TRUE" ]]; then
+    echo "$1" > /dev/tty
+  fi
+}
+
+perform() {
+  if [ "$opt_dry_run" = "$FALSE" ]; then
+    "$@"
+  fi
+}
+
+error() {
+  cat <<< "$(red "ERROR:") $@" >&2
+  exit 1
+}
 
 # =============================================================================
 # FILE ACTIONS
@@ -23,40 +55,20 @@ verbose="$FALSE"
 # =============================================================================
 
 create_dir() {
-  local dir="$1"
-
-  if [ "$dry_run" = "$TRUE" || "$verbose" = "$TRUE" ]; then
-    echo "Creating directory \"$dir\""
-  fi
-
-  if [ "$dry_run" = "$FALSE" ]; then
-    mkdir "$dir"
-  fi
+  verbose "mkdir $(blue "$1")"
+  perform "mkdir $1"
 }
 
 deprecate_file() {
-  local file="$1"
-
-  if [ "$dry_run" = "$TRUE" || "$verbose" = "$TRUE" ]; then
-    echo "Moving \"$file\" to \"$file.replaced\""
-  fi
-
-  if [ "$dry_run" = "$FALSE" ]; then
-    mv "$original" "$original.replaced" 2> /dev/null
-  fi
+  verbose "mv $(blue "$1") -> $(blue "$1.replaced")"
+  perform "mv $1 $1.replaced 2> /dev/null"
 }
 
 symlink_file() {
   local proj_file="$1"
   local home_file="$2"
-
-  if [ "$dry_run" = "$TRUE" || "$verbose" = "$TRUE" ]; then
-    echo "Symlinking \"$home_file\" to \"$proj_file\""
-  fi
-
-  if [ "$dry_run" = "$FALSE" ]; then
-    ln -fs "$proj_file" "$home_file"
-  fi
+  verbose "ln $(blue "$home_file") -> $(blue "$proj_file")"
+  perform "ln -fs $proj_file $home_file"
 }
 
 # =============================================================================
@@ -69,22 +81,16 @@ deploy_file() {
   local proj_file="$1"
   local home_file="$2"
 
-  [ ! -h "$proj_file" ] && deprecate_file "$original"
-  symlink_file "$dotfile" "$original"
+  [[ ! -h "$home_file" ]] && deprecate_file "$home_file"
+  symlink_file "$proj_file" "$home_file"
 }
 
 deploy_dir() {
   local proj_dir="$1"
   local home_dir="$2"
 
-  if [ -e "$home_dir" || ! -d "$home_dir" ]; then
-    cat <<HERE >2
-Cannot create the following directory
-$home_dir
-because a file by that name already exists.
-HERE
-
-    exit 1
+  if [[ -e "$home_dir" && ! -d "$home_dir" ]]; then
+    error "$(blue "$home_dir") already exists."
   fi
 
   if [ ! -e "$home_dir" ]; then
@@ -100,16 +106,36 @@ deploy_all_in() {
   local prefix="$3"
 
   for file in $proj_dir/*; do
-    local path_seg = "${dotfile##*/}"
+    local path_seg="${file##*/}"
 
     if [ -d "$file" ]; then
-      deploy_dir "$proj_dir/$path_seg" "$home_dir/$prefix$path_seg"
+      deploy_dir "$file" "$home_dir/$prefix$path_seg"
     else
-      deploy_file "$proj_dir/$path_seg" "$home_dir/$prefix$path_seg"
+      deploy_file "$file" "$home_dir/$prefix$path_seg"
     fi
   done
 }
 
-rel_path="$(dirname "$0")"
-cd "$rel_path/.."
-deploy_all_in "$(pwd)/home" "$HOME" "."
+# =============================================================================
+# MAIN
+# The actual program.
+# =============================================================================
+
+parse_options() {
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      -d|--dry-run) opt_dry_run="$TRUE"; shift ;;
+      -v|--verbose) opt_verbose="$TRUE"; shift ;;
+      *) error "Unknown argument \"$1\"" ;;
+    esac
+  done
+}
+
+main() {
+  rel_path="$(dirname "$0")"
+  cd "$rel_path/.."
+  deploy_all_in "$(pwd)/home" "$HOME" "."
+}
+
+parse_options $@
+main
